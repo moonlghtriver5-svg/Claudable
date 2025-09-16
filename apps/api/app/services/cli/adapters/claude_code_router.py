@@ -104,10 +104,14 @@ class ClaudeCodeRouterCLI(BaseCLI):
         system_prompt = get_system_prompt()
         cli_model = self._get_cli_model_name(model) or _default_router_model()
 
-        project_identifier = Path(project_path).name if project_path else "project"
-        active_session_id = (
-            session_id or await self.get_session_id(project_identifier) or uuid.uuid4().hex
-        )
+        project_identifier = self._extract_project_id(project_path)
+        active_session_id: str
+        if session_id:
+            active_session_id = session_id
+        elif project_identifier:
+            active_session_id = await self.get_session_id(project_identifier) or uuid.uuid4().hex
+        else:
+            active_session_id = uuid.uuid4().hex
         history = list(self._conversation_cache.get(active_session_id, []))
 
         final_instruction = instruction
@@ -119,7 +123,7 @@ class ClaudeCodeRouterCLI(BaseCLI):
             "content": [{"type": "text", "text": final_instruction}],
         })
 
-        metadata_user = f"project_{project_identifier}_session_{active_session_id}"
+        metadata_user = f"project_{project_identifier or 'project'}_session_{active_session_id}"
 
         while True:
             try:
@@ -213,7 +217,8 @@ class ClaudeCodeRouterCLI(BaseCLI):
                     )
 
         self._conversation_cache[active_session_id] = history
-        await self.set_session_id(project_identifier, active_session_id)
+        if project_identifier:
+            await self.set_session_id(project_identifier, active_session_id)
 
     async def get_session_id(self, project_id: str) -> Optional[str]:
         if not self.db_session:
@@ -270,6 +275,27 @@ class ClaudeCodeRouterCLI(BaseCLI):
             return f"https://{port}-{codespace}.{forwarding_domain}"
 
         return f"http://127.0.0.1:{port}"
+
+    def _extract_project_id(self, project_path: str | None) -> Optional[str]:
+        if not project_path:
+            return None
+
+        try:
+            parts = Path(project_path).parts
+        except Exception:
+            return None
+
+        if "projects" in parts:
+            index = parts.index("projects")
+            if index + 1 < len(parts):
+                return parts[index + 1]
+
+        if parts:
+            if parts[-1] == "repo" and len(parts) >= 2:
+                return parts[-2]
+            return parts[-1]
+
+        return None
 
     def _build_headers(self) -> Dict[str, str]:
         headers: Dict[str, str] = {"content-type": "application/json"}
