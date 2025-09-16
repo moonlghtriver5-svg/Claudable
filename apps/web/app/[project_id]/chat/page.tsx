@@ -804,7 +804,7 @@ export default function ChatPage({ params }: Params) {
                 setSelectedModel('gpt-5');
               } else if (currentCli === 'codex') {
                 setSelectedModel('gpt-5');
-              } else if (currentCli === 'qwen') {
+              } else if (currentCli === 'qwen' || currentCli === 'router') {
                 setSelectedModel('qwen3-coder-plus');
               } else if (currentCli === 'gemini') {
                 setSelectedModel('gemini-2.5-pro');
@@ -1651,8 +1651,8 @@ export default function ChatPage({ params }: Params) {
                         {deploymentStatus === 'ready' && publishedUrl && (
                           <div className="mb-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
                             <p className="text-sm font-medium text-green-700 dark:text-green-400 mb-2">Currently published at:</p>
-                            <a 
-                              href={publishedUrl} 
+                            <a
+                              href={publishedUrl ?? undefined}
                               target="_blank" 
                               rel="noopener noreferrer" 
                               className="text-sm text-green-600 dark:text-green-300 font-mono hover:underline break-all"
