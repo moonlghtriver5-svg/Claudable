@@ -66,6 +66,20 @@ const CLI_OPTIONS: CLIOption[] = [
     features: ['Agentic coding', '1M context window', 'Apache 2.0 license']
   },
   {
+    id: 'router',
+    name: 'Claude Code Router',
+    icon: '🛣️',
+    description: 'Use claude-code-router to reach OpenRouter models',
+    color: 'from-indigo-500 to-purple-500',
+    checkCommand: 'ccr --version',
+    downloadUrl: 'https://github.com/musistudio/claude-code-router',
+    installCommand: 'npm install -g @musistudio/claude-code-router',
+    models: [
+      { id: 'qwen3-coder-plus', name: 'Qwen3 Coder Plus', description: 'OpenRouter proxy for Qwen 3 coder' },
+    ],
+    features: ['Bring your own OpenRouter key', 'Drop-in CLI replacement', 'Streamed tool support']
+  },
+  {
     id: 'gemini',
     name: 'Gemini CLI',
     icon: '💎',
@@ -168,6 +182,7 @@ export default function ProjectSettings({ isOpen, onClose, projectId, projectNam
       claude: { model: 'claude-sonnet-4-20250514', enabled: true },
       cursor: { model: 'cursor-smart', enabled: true },
       qwen: { model: 'qwen3-coder-plus', enabled: true },
+      router: { model: 'qwen3-coder-plus', enabled: true },
       gemini: { model: 'gemini-2.5-pro', enabled: true },
       codex: { model: 'gpt-4-turbo', enabled: true },
     }
@@ -267,6 +282,7 @@ export default function ProjectSettings({ isOpen, onClose, projectId, projectNam
             claude: { model: 'claude-opus-4.1', enabled: true },
             cursor: { model: 'gpt-5', enabled: false },
             qwen: { model: 'qwen3-coder-480b-a35b', enabled: false },
+            router: { model: 'qwen3-coder-plus', enabled: false },
             gemini: { model: 'gemini-2.5-pro', enabled: false },
             codex: { model: 'gpt-5', enabled: false }
           }
@@ -282,6 +298,7 @@ export default function ProjectSettings({ isOpen, onClose, projectId, projectNam
           claude: { model: 'claude-opus-4.1', enabled: true },
           cursor: { model: 'gpt-5', enabled: false },
           qwen: { model: 'qwen3-coder-480b', enabled: false },
+          router: { model: 'qwen3-coder-plus', enabled: false },
           gemini: { model: 'gemini-2.5-pro', enabled: false },
           codex: { model: 'gpt-5', enabled: false }
         }

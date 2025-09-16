@@ -95,6 +95,15 @@ MODEL_MAPPING: Dict[str, Dict[str, str]] = {
         # Allow direct
         "qwen-coder": "qwen-coder",
     },
+    "router": {
+        # Default route targets claude-code-router configured with OpenRouter
+        "qwen3-coder-plus": os.getenv(
+            "CLAUDE_CODE_ROUTER_MODEL", "openrouter,qwen/qwen3-coder"
+        ),
+        "Qwen3 Coder Plus": os.getenv(
+            "CLAUDE_CODE_ROUTER_MODEL", "openrouter,qwen/qwen3-coder"
+        ),
+    },
     "gemini": {
         "gemini-2.5-pro": "gemini-2.5-pro",
         "gemini-2.5-flash": "gemini-2.5-flash",
@@ -109,6 +118,7 @@ class CLIType(str, Enum):
     CURSOR = "cursor"
     CODEX = "codex"
     QWEN = "qwen"
+    ROUTER = "router"
     GEMINI = "gemini"
 
 
