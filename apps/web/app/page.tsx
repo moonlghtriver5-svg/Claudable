@@ -37,6 +37,7 @@ const assistantBrandColors: { [key: string]: string } = {
   claude: '#DE7356',
   cursor: '#6B7280',
   qwen: '#A855F7',
+  router: '#6366F1',
   gemini: '#4285F4',
   codex: '#000000'
 };
@@ -73,6 +74,9 @@ export default function HomePage() {
       { id: 'gpt-5', name: 'GPT-5' }
     ],
     qwen: [
+      { id: 'qwen3-coder-plus', name: 'Qwen3 Coder Plus' }
+    ],
+    router: [
       { id: 'qwen3-coder-plus', name: 'Qwen3 Coder Plus' }
     ],
     gemini: [
@@ -277,7 +281,20 @@ export default function HomePage() {
 
   // Format CLI and model information
   const formatCliInfo = (cli?: string, model?: string) => {
-    const cliName = cli === 'claude' ? 'Claude' : cli === 'cursor' ? 'Cursor' : cli || 'Unknown';
+    const cliName =
+      cli === 'claude'
+        ? 'Claude'
+        : cli === 'cursor'
+        ? 'Cursor'
+        : cli === 'qwen'
+        ? 'Qwen Coder'
+        : cli === 'router'
+        ? 'Claude Code Router'
+        : cli === 'gemini'
+        ? 'Gemini'
+        : cli === 'codex'
+        ? 'Codex'
+        : cli || 'Unknown';
     const modelName = model || 'Default model';
     return `${cliName} • ${modelName}`;
   };
