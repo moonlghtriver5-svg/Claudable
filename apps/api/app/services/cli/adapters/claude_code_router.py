@@ -252,14 +252,10 @@ class ClaudeCodeRouterCLI(BaseCLI):
     def _get_base_url(self) -> Optional[str]:
         """Return the configured router base URL with sensible fallbacks.
 
-        The adapter primarily relies on ``CLAUDE_CODE_ROUTER_URL``. When it is
-        not provided (a common scenario in fresh GitHub Codespaces where users
-        simply run ``ccr start``), we fall back to loopback defaults so the
-        health check still has a target. Additionally, Codespaces expose
-        forwarded ports via ``https://<port>-<codespace>.<domain>``, so we build
-        that URL automatically when the relevant environment variables are
-        available. This keeps the setup lightweight—developers only need to
-        explicitly set the URL when running the router on a remote host.
+        We prefer ``CLAUDE_CODE_ROUTER_URL`` when provided. When it is missing
+        (common in new Codespaces), we fall back to the local loopback port or
+        the forwarded Codespaces hostname so health checks keep working without
+        extra configuration.
         """
 
         explicit_url = os.getenv("CLAUDE_CODE_ROUTER_URL")
