@@ -160,7 +160,7 @@ async def execute_chat_task(
         )
         
         # Qwen Coder does not support images yet; drop them to prevent errors
-        safe_images = [] if cli_preference == CLIType.QWEN else images
+        safe_images = [] if cli_preference in (CLIType.QWEN, CLIType.ROUTER) else images
 
         result = await cli_manager.execute_instruction(
             instruction=instruction,

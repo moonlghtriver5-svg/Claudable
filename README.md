@@ -56,6 +56,7 @@ Claudable supports multiple AI coding agents, giving you the flexibility to choo
 - **Cursor CLI** - Powerful multi-model AI agent
 - **Gemini CLI** - Google's open-source AI agent
 - **Qwen Code** - Alibaba's open-source coding CLI
+- **Claude Code Router (OpenRouter)** - Proxy OpenRouter models (e.g. Qwen 3 Coder) through claude-code-router
 
 ### Claude Code (Recommended)
 **[Claude Code](https://docs.anthropic.com/en/docs/claude-code/setup)** - Anthropic's advanced AI coding agent with Claude Opus 4.1
@@ -111,6 +112,22 @@ Claudable supports multiple AI coding agents, giving you the flexibility to choo
   npm install -g @qwen-code/qwen-code@latest
   qwen --version
   ```
+
+### Claude Code Router (OpenRouter)
+**[Claude Code Router](https://github.com/musistudio/claude-code-router)** - Lightweight HTTP proxy that exposes the Anthropic
+Messages API while forwarding requests to providers such as OpenRouter.
+- **Features**: Streams tool calls compatible with Claudable's Claude workflows, lets you reuse Claude's terminal + MCP tools
+  with non-Anthropic models like **Qwen 3 Coder**
+- **Context**: Determined by the upstream model (OpenRouter's Qwen 3 Coder currently offers 200K tokens)
+- **Pricing**: Pay-as-you-go via the upstream provider (OpenRouter in this guide)
+- **Installation**:
+  ```bash
+  npm install -g @musistudio/claude-code-router
+  ccr --version
+  ```
+- **Configuration**: Map the router's default model to `openrouter,qwen/qwen3-coder` and export your `OPENROUTER_API_KEY`
+- **Integration guide**: See [guides/claude-code-router.md](guides/claude-code-router.md) for a step-by-step walkthrough, including
+  GitHub Codespaces environment variables and troubleshooting tips.
 
 ## Technology Stack
 
