@@ -77,6 +77,18 @@ export const CLI_OPTIONS: CLIOption[] = [
     ]
   },
   {
+    id: 'router',
+    name: 'Claude Code Router',
+    description: 'Proxy claude-code-router to OpenRouter models',
+    icon: '/qwen.png',
+    available: true,
+    configured: false,
+    enabled: true,
+    models: [
+      { id: 'qwen3-coder-plus', name: 'Qwen3 Coder Plus' }
+    ]
+  },
+  {
     id: 'gemini',
     name: 'Gemini',
     description: 'Gemini CLI',

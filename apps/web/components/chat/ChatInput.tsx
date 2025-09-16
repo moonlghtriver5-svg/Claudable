@@ -92,7 +92,7 @@ export default function ChatInput({
 
   // Handle files (for both drag drop and file input)
   const handleFiles = async (files: FileList) => {
-    if (!projectId || preferredCli === 'cursor' || preferredCli === 'qwen') return;
+    if (!projectId || preferredCli === 'cursor' || preferredCli === 'qwen' || preferredCli === 'router') return;
     
     setIsUploading(true);
     
@@ -143,13 +143,13 @@ export default function ChatInput({
   };
 
   // Drag and drop handlers
-  const handleDragEnter = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (projectId && preferredCli !== 'cursor' && preferredCli !== 'qwen') {
-      setIsDragOver(true);
-    }
-  };
+    const handleDragEnter = (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (projectId && preferredCli !== 'cursor' && preferredCli !== 'qwen' && preferredCli !== 'router') {
+        setIsDragOver(true);
+      }
+    };
 
   const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault();
@@ -160,22 +160,22 @@ export default function ChatInput({
     }
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (projectId && preferredCli !== 'cursor' && preferredCli !== 'qwen') {
-      e.dataTransfer.dropEffect = 'copy';
-    } else {
-      e.dataTransfer.dropEffect = 'none';
-    }
-  };
+    const handleDragOver = (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (projectId && preferredCli !== 'cursor' && preferredCli !== 'qwen' && preferredCli !== 'router') {
+        e.dataTransfer.dropEffect = 'copy';
+      } else {
+        e.dataTransfer.dropEffect = 'none';
+      }
+    };
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragOver(false);
 
-    if (!projectId || preferredCli === 'cursor' || preferredCli === 'qwen') return;
+    if (!projectId || preferredCli === 'cursor' || preferredCli === 'qwen' || preferredCli === 'router') return;
 
     const files = e.dataTransfer.files;
     if (files.length > 0) {
@@ -190,7 +190,7 @@ export default function ChatInput({
   // Handle clipboard paste for images
   useEffect(() => {
     const handlePaste = (e: ClipboardEvent) => {
-      if (!projectId || preferredCli === 'cursor' || preferredCli === 'qwen') return;
+      if (!projectId || preferredCli === 'cursor' || preferredCli === 'qwen' || preferredCli === 'router') return;
       
       const items = e.clipboardData?.items;
       if (!items) return;
@@ -295,7 +295,7 @@ export default function ChatInput({
         </div>
         
         {/* Drag overlay */}
-        {isDragOver && projectId && preferredCli !== 'cursor' && preferredCli !== 'qwen' && (
+        {isDragOver && projectId && preferredCli !== 'cursor' && preferredCli !== 'qwen' && preferredCli !== 'router' && (
           <div className="absolute inset-0 bg-blue-50/90 dark:bg-blue-900/30 rounded-3xl flex items-center justify-center z-10 border-2 border-dashed border-blue-500">
             <div className="text-center">
               <div className="text-2xl mb-2">📸</div>
@@ -313,10 +313,10 @@ export default function ChatInput({
           <div className="flex items-center gap-2">
             {/* Image Upload Button */}
             {projectId && (
-              (preferredCli === 'cursor' || preferredCli === 'qwen') ? (
-                <div 
+              (preferredCli === 'cursor' || preferredCli === 'qwen' || preferredCli === 'router') ? (
+                <div
                   className="flex items-center justify-center w-8 h-8 text-gray-300 dark:text-gray-600 cursor-not-allowed opacity-50 rounded-full"
-                  title={preferredCli === 'qwen' ? "Qwen Coder doesn't support image input" : "Cursor CLI doesn't support image input"}
+                  title={preferredCli === 'qwen' || preferredCli === 'router' ? "Qwen Coder doesn't support image input" : "Cursor CLI doesn't support image input"}
                 >
                   <Image className="h-4 w-4" />
                 </div>
@@ -343,19 +343,20 @@ export default function ChatInput({
             {preferredCli && (
               <div className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-full">
                 {/* Agent Icon */}
-                <img 
-                  src={preferredCli === 'claude' ? '/claude.png' : 
-                       preferredCli === 'cursor' ? '/cursor.png' : 
-                       preferredCli === 'qwen' ? '/qwen.png' :
+                <img
+                  src={preferredCli === 'claude' ? '/claude.png' :
+                       preferredCli === 'cursor' ? '/cursor.png' :
+                       preferredCli === 'qwen' || preferredCli === 'router' ? '/qwen.png' :
                        preferredCli === 'gemini' ? '/gemini.png' :
-                       '/oai.png'} 
+                       '/oai.png'}
                   alt={preferredCli}
                   className="w-4 h-4"
                 />
                 <span>
-                  {preferredCli === 'claude' ? 'Claude Code' : 
-                   preferredCli === 'cursor' ? 'Cursor Agent' : 
+                  {preferredCli === 'claude' ? 'Claude Code' :
+                   preferredCli === 'cursor' ? 'Cursor Agent' :
                    preferredCli === 'qwen' ? 'Qwen Coder' :
+                   preferredCli === 'router' ? 'Claude Code Router' :
                    preferredCli === 'gemini' ? 'Gemini CLI' :
                    'Codex CLI'}
                 </span>

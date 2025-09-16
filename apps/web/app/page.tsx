@@ -37,6 +37,7 @@ const assistantBrandColors: { [key: string]: string } = {
   claude: '#DE7356',
   cursor: '#6B7280',
   qwen: '#A855F7',
+  router: '#6366F1',
   gemini: '#4285F4',
   codex: '#000000'
 };
@@ -73,6 +74,9 @@ export default function HomePage() {
       { id: 'gpt-5', name: 'GPT-5' }
     ],
     qwen: [
+      { id: 'qwen3-coder-plus', name: 'Qwen3 Coder Plus' }
+    ],
+    router: [
       { id: 'qwen3-coder-plus', name: 'Qwen3 Coder Plus' }
     ],
     gemini: [
@@ -130,7 +134,7 @@ export default function HomePage() {
       if (cli === 'claude') setSelectedModel('claude-sonnet-4');
       else if (cli === 'cursor') setSelectedModel('gpt-5');
       else if (cli === 'codex') setSelectedModel('gpt-5');
-      else if (cli === 'qwen') setSelectedModel('qwen3-coder-plus');
+      else if (cli === 'qwen' || cli === 'router') setSelectedModel('qwen3-coder-plus');
       else if (cli === 'gemini') setSelectedModel('gemini-2.5-pro');
     }
   }, [globalSettings, usingGlobalDefaults, isInitialLoad]);
@@ -277,7 +281,20 @@ export default function HomePage() {
 
   // Format CLI and model information
   const formatCliInfo = (cli?: string, model?: string) => {
-    const cliName = cli === 'claude' ? 'Claude' : cli === 'cursor' ? 'Cursor' : cli || 'Unknown';
+    const cliName =
+      cli === 'claude'
+        ? 'Claude'
+        : cli === 'cursor'
+        ? 'Cursor'
+        : cli === 'qwen'
+        ? 'Qwen Coder'
+        : cli === 'router'
+        ? 'Claude Code Router'
+        : cli === 'gemini'
+        ? 'Gemini'
+        : cli === 'codex'
+        ? 'Codex'
+        : cli || 'Unknown';
     const modelName = model || 'Default model';
     return `${cliName} • ${modelName}`;
   };
@@ -684,7 +701,7 @@ export default function HomePage() {
       setSelectedModel('gpt-5');
     } else if (assistant === 'codex') {
       setSelectedModel('gpt-5');
-    } else if (assistant === 'qwen') {
+    } else if (assistant === 'qwen' || assistant === 'router') {
       setSelectedModel('qwen3-coder-plus');
     } else if (assistant === 'gemini') {
       setSelectedModel('gemini-2.5-pro');
@@ -705,7 +722,8 @@ export default function HomePage() {
     { id: 'codex', name: 'Codex CLI', icon: '/oai.png' },
     { id: 'cursor', name: 'Cursor Agent', icon: '/cursor.png' },
     { id: 'gemini', name: 'Gemini CLI', icon: '/gemini.png' },
-    { id: 'qwen', name: 'Qwen Coder', icon: '/qwen.png' }
+    { id: 'qwen', name: 'Qwen Coder', icon: '/qwen.png' },
+    { id: 'router', name: 'Claude Code Router', icon: '/qwen.png' }
   ];
 
   return (
@@ -891,7 +909,7 @@ export default function HomePage() {
                                 >
                                   {project.preferred_cli === 'claude' ? 'Claude' : 
                                    project.preferred_cli === 'cursor' ? 'Cursor' : 
-                                   project.preferred_cli === 'qwen' ? 'Qwen' : 
+                                   project.preferred_cli === 'qwen' ? 'Qwen' : project.preferred_cli === 'router' ? 'Router' :
                                    project.preferred_cli === 'gemini' ? 'Gemini' : 
                                    project.preferred_cli === 'codex' ? 'Codex' : 
                                    project.preferred_cli}
@@ -1052,10 +1070,10 @@ export default function HomePage() {
               <div className="flex gap-1 flex-wrap items-center">
                 {/* Image Upload Button */}
                 <div className="flex items-center gap-2">
-                  {selectedAssistant === 'cursor' || selectedAssistant === 'qwen' ? (
+                  {selectedAssistant === 'cursor' || selectedAssistant === 'qwen' || selectedAssistant === 'router' ? (
                     <div 
                       className="flex items-center justify-center w-8 h-8 text-gray-300 dark:text-gray-600 cursor-not-allowed opacity-50 rounded-full"
-                      title={selectedAssistant === 'qwen' ? "Qwen Coder doesn't support image input" : "Cursor CLI doesn't support image input"}
+                      title={selectedAssistant === 'qwen' || selectedAssistant === 'router' ? "Qwen Coder doesn't support image input" : "Cursor CLI doesn't support image input"}
                     >
                       <ImageIcon className="h-4 w-4" />
                     </div>
@@ -1089,13 +1107,13 @@ export default function HomePage() {
                   >
                     <div className="w-4 h-4 rounded overflow-hidden">
                       <img 
-                        src={selectedAssistant === 'claude' ? '/claude.png' : selectedAssistant === 'cursor' ? '/cursor.png' : selectedAssistant === 'qwen' ? '/qwen.png' : selectedAssistant === 'gemini' ? '/gemini.png' : '/oai.png'} 
-                        alt={selectedAssistant === 'claude' ? 'Claude' : selectedAssistant === 'cursor' ? 'Cursor' : selectedAssistant === 'qwen' ? 'Qwen' : selectedAssistant === 'gemini' ? 'Gemini' : 'Codex'}
+                        src={selectedAssistant === 'claude' ? '/claude.png' : selectedAssistant === 'cursor' ? '/cursor.png' : (selectedAssistant === 'qwen' || selectedAssistant === 'router') ? '/qwen.png' : selectedAssistant === 'gemini' ? '/gemini.png' : '/oai.png'}
+                        alt={selectedAssistant === 'claude' ? 'Claude' : selectedAssistant === 'cursor' ? 'Cursor' : selectedAssistant === 'qwen' ? 'Qwen' : selectedAssistant === 'router' ? 'Router' : selectedAssistant === 'gemini' ? 'Gemini' : 'Codex'}
                         className="w-full h-full object-contain"
                       />
                     </div>
                     <span className="hidden md:flex text-sm font-medium">
-                      {selectedAssistant === 'claude' ? 'Claude Code' : selectedAssistant === 'cursor' ? 'Cursor Agent' : selectedAssistant === 'qwen' ? 'Qwen Coder' : selectedAssistant === 'gemini' ? 'Gemini CLI' : 'Codex CLI'}
+                      {selectedAssistant === 'claude' ? 'Claude Code' : selectedAssistant === 'cursor' ? 'Cursor Agent' : selectedAssistant === 'qwen' ? 'Qwen Coder' : selectedAssistant === 'router' ? 'Claude Code Router' : selectedAssistant === 'gemini' ? 'Gemini CLI' : 'Codex CLI'}
                     </span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 -960 960 960" className="shrink-0 h-3 w-3 rotate-90" fill="currentColor">
                       <path d="M530-481 353-658q-9-9-8.5-21t9.5-21 21.5-9 21.5 9l198 198q5 5 7 10t2 11-2 11-7 10L396-261q-9 9-21 8.5t-21-9.5-9-21.5 9-21.5z"/>
@@ -1155,7 +1173,7 @@ export default function HomePage() {
                           return 'Claude Sonnet 4';
                         } else if (selectedAssistant === 'codex' && selectedModel === 'gpt-5') {
                           return 'GPT-5';
-                        } else if (selectedAssistant === 'qwen' && selectedModel === 'qwen3-coder-plus') {
+                        } else if ((selectedAssistant === 'qwen' || selectedAssistant === 'router') && selectedModel === 'qwen3-coder-plus') {
                           return 'Qwen3 Coder Plus';
                         } else if (selectedAssistant === 'gemini' && selectedModel === 'gemini-2.5-pro') {
                           return 'Gemini 2.5 Pro';
