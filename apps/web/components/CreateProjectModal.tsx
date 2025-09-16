@@ -66,6 +66,20 @@ const CLI_OPTIONS: CLIOption[] = [
     enabled: false
   },
   {
+    id: 'router',
+    name: 'Claude Code Router',
+    icon: '🛰️',
+    description: 'Proxy Claude Code through claude-code-router',
+    color: 'from-indigo-500 to-purple-500',
+    downloadUrl: 'https://github.com/musistudio/claude-code-router',
+    installCommand: 'npm install -g @musistudio/claude-code-router',
+    models: [
+      { id: 'qwen3-coder-plus', name: 'Qwen3 Coder Plus', description: 'OpenRouter Qwen 3 Coder via claude-code-router', supportsImages: false },
+    ],
+    features: ['Works with Claude Code tooling', 'HTTP router proxy', 'OpenRouter integration'],
+    enabled: true
+  },
+  {
     id: 'gemini',
     name: 'Gemini CLI',
     icon: '💎',

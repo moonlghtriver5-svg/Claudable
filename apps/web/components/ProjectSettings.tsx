@@ -66,6 +66,20 @@ const CLI_OPTIONS: CLIOption[] = [
     features: ['Agentic coding', '1M context window', 'Apache 2.0 license']
   },
   {
+    id: 'router',
+    name: 'Claude Code Router',
+    icon: '🛰️',
+    description: 'Route Claude Code to OpenRouter models',
+    color: 'from-indigo-500 to-purple-500',
+    checkCommand: 'ccr --version',
+    downloadUrl: 'https://github.com/musistudio/claude-code-router',
+    installCommand: 'npm install -g @musistudio/claude-code-router',
+    models: [
+      { id: 'qwen3-coder-plus', name: 'Qwen3 Coder Plus', description: 'OpenRouter Qwen 3 Coder via claude-code-router' },
+    ],
+    features: ['HTTP proxy for Claude Code', 'OpenRouter integration', 'Local tool execution']
+  },
+  {
     id: 'gemini',
     name: 'Gemini CLI',
     icon: '💎',
@@ -168,6 +182,7 @@ export default function ProjectSettings({ isOpen, onClose, projectId, projectNam
       claude: { model: 'claude-sonnet-4-20250514', enabled: true },
       cursor: { model: 'cursor-smart', enabled: true },
       qwen: { model: 'qwen3-coder-plus', enabled: true },
+      router: { model: 'qwen3-coder-plus', enabled: true },
       gemini: { model: 'gemini-2.5-pro', enabled: true },
       codex: { model: 'gpt-4-turbo', enabled: true },
     }

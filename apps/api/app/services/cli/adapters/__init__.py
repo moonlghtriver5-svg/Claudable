@@ -3,6 +3,7 @@ from .cursor_agent import CursorAgentCLI
 from .codex_cli import CodexCLI
 from .qwen_cli import QwenCLI
 from .gemini_cli import GeminiCLI
+from .claude_code_router import ClaudeCodeRouterCLI
 
 __all__ = [
     "ClaudeCodeCLI",
@@ -10,4 +11,5 @@ __all__ = [
     "CodexCLI",
     "QwenCLI",
     "GeminiCLI",
+    "ClaudeCodeRouterCLI",
 ]

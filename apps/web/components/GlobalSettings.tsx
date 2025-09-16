@@ -74,6 +74,20 @@ const CLI_OPTIONS: CLIOption[] = [
     ]
   },
   {
+    id: 'router',
+    name: 'Claude Code Router',
+    icon: '/qwen.png',
+    description: 'Proxy claude-code-router to OpenRouter models',
+    color: 'from-indigo-500 to-purple-500',
+    brandColor: '#6366F1',
+    downloadUrl: 'https://github.com/musistudio/claude-code-router',
+    installCommand: 'npm install -g @musistudio/claude-code-router',
+    enabled: true,
+    models: [
+      { id: 'qwen3-coder-plus', name: 'Qwen3 Coder Plus' }
+    ]
+  },
+  {
     id: 'gemini',
     name: 'Gemini CLI',
     icon: '/gemini.png',
@@ -568,7 +582,7 @@ export default function GlobalSettings({ isOpen, onClose, initialTab = 'general'
                             {cli.id === 'codex' && (
                               <img src="/oai.png" alt="Codex" className="w-8 h-8" />
                             )}
-                            {cli.id === 'qwen' && (
+                            {(cli.id === 'qwen' || cli.id === 'router') && (
                               <img src="/qwen.png" alt="Qwen" className="w-8 h-8" />
                             )}
                             {cli.id === 'gemini' && (
@@ -880,6 +894,7 @@ export default function GlobalSettings({ isOpen, onClose, initialTab = 'general'
                   </span>
                   {selectedCLI.id === 'gemini' && 'Authenticate (OAuth or API Key)'}
                   {selectedCLI.id === 'qwen' && 'Authenticate (Qwen OAuth or API Key)'}
+                  {selectedCLI.id === 'router' && 'Configure Router URL and API Key'}
                   {selectedCLI.id === 'codex' && 'Start Codex and sign in'}
                   {selectedCLI.id === 'claude' && 'Start Claude and sign in'}
                   {selectedCLI.id === 'cursor' && 'Start Cursor CLI and sign in'}
@@ -890,6 +905,7 @@ export default function GlobalSettings({ isOpen, onClose, initialTab = 'general'
                      selectedCLI.id === 'cursor' ? 'cursor-agent' :
                      selectedCLI.id === 'codex' ? 'codex' :
                      selectedCLI.id === 'qwen' ? 'qwen' :
+                     selectedCLI.id === 'router' ? 'ccr' :
                      selectedCLI.id === 'gemini' ? 'gemini' : ''}
                   </code>
                   <button
@@ -901,6 +917,7 @@ export default function GlobalSettings({ isOpen, onClose, initialTab = 'general'
                                       selectedCLI.id === 'cursor' ? 'cursor-agent' :
                                       selectedCLI.id === 'codex' ? 'codex' :
                                       selectedCLI.id === 'qwen' ? 'qwen' :
+                                      selectedCLI.id === 'router' ? 'ccr' :
                                       selectedCLI.id === 'gemini' ? 'gemini' : '';
                       if (authCmd) navigator.clipboard.writeText(authCmd);
                       showToast('Command copied to clipboard', 'success');
@@ -929,6 +946,7 @@ export default function GlobalSettings({ isOpen, onClose, initialTab = 'general'
                      selectedCLI.id === 'cursor' ? 'cursor-agent --version' :
                      selectedCLI.id === 'codex' ? 'codex --version' :
                      selectedCLI.id === 'qwen' ? 'qwen --version' :
+                     selectedCLI.id === 'router' ? 'ccr --version' :
                      selectedCLI.id === 'gemini' ? 'gemini --version' : ''}
                   </code>
                   <button
@@ -940,6 +958,7 @@ export default function GlobalSettings({ isOpen, onClose, initialTab = 'general'
                                         selectedCLI.id === 'cursor' ? 'cursor-agent --version' :
                                         selectedCLI.id === 'codex' ? 'codex --version' :
                                         selectedCLI.id === 'qwen' ? 'qwen --version' :
+                                        selectedCLI.id === 'router' ? 'ccr --version' :
                                         selectedCLI.id === 'gemini' ? 'gemini --version' : '';
                       if (versionCmd) navigator.clipboard.writeText(versionCmd);
                       showToast('Command copied to clipboard', 'success');

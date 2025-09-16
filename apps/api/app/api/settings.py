@@ -13,13 +13,18 @@ router = APIRouter(prefix="/api/settings", tags=["settings"])
 CLI_OPTIONS = [
     {
         "id": "claude",
-        "name": "Claude Code", 
+        "name": "Claude Code",
         "check_command": ["claude", "--version"]
     },
     {
         "id": "cursor",
         "name": "Cursor Agent",
         "check_command": ["cursor-agent", "--version"]
+    },
+    {
+        "id": "router",
+        "name": "Claude Code Router",
+        "check_command": ["ccr", "--version"]
     },
 ]
 
@@ -84,13 +89,21 @@ async def get_cli_status() -> Dict[str, Any]:
     results = {}
     
     # 새로운 UnifiedCLIManager의 CLI 인스턴스 사용
-    from app.services.cli.unified_manager import ClaudeCodeCLI, CursorAgentCLI, CodexCLI, QwenCLI, GeminiCLI
+    from app.services.cli.unified_manager import (
+        ClaudeCodeCLI,
+        ClaudeCodeRouterCLI,
+        CursorAgentCLI,
+        CodexCLI,
+        QwenCLI,
+        GeminiCLI,
+    )
     cli_instances = {
         "claude": ClaudeCodeCLI(),
         "cursor": CursorAgentCLI(),
         "codex": CodexCLI(),
         "qwen": QwenCLI(),
-        "gemini": GeminiCLI()
+        "gemini": GeminiCLI(),
+        "router": ClaudeCodeRouterCLI(),
     }
     
     # 모든 CLI를 병렬로 확인

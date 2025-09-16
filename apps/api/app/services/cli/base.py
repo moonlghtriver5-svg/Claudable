@@ -95,6 +95,11 @@ MODEL_MAPPING: Dict[str, Dict[str, str]] = {
         # Allow direct
         "qwen-coder": "qwen-coder",
     },
+    "router": {
+        "qwen3-coder-plus": "openrouter,qwen/qwen3-coder",
+        "Qwen3 Coder Plus": "openrouter,qwen/qwen3-coder",
+        "openrouter,qwen/qwen3-coder": "openrouter,qwen/qwen3-coder",
+    },
     "gemini": {
         "gemini-2.5-pro": "gemini-2.5-pro",
         "gemini-2.5-flash": "gemini-2.5-flash",
@@ -110,6 +115,7 @@ class CLIType(str, Enum):
     CODEX = "codex"
     QWEN = "qwen"
     GEMINI = "gemini"
+    ROUTER = "router"
 
 
 class BaseCLI(ABC):

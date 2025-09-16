@@ -22,6 +22,7 @@ const assistantBrandColors: { [key: string]: string } = {
   claude: '#DE7356',
   cursor: '#6B7280',
   qwen: '#A855F7',
+  router: '#6366F1',
   gemini: '#4285F4',
   codex: '#000000'
 };
@@ -804,7 +805,7 @@ export default function ChatPage({ params }: Params) {
                 setSelectedModel('gpt-5');
               } else if (currentCli === 'codex') {
                 setSelectedModel('gpt-5');
-              } else if (currentCli === 'qwen') {
+              } else if (currentCli === 'qwen' || currentCli === 'router') {
                 setSelectedModel('qwen3-coder-plus');
               } else if (currentCli === 'gemini') {
                 setSelectedModel('gemini-2.5-pro');
@@ -817,7 +818,17 @@ export default function ChatPage({ params }: Params) {
           if (response.ok) {
             const settings = await response.json();
             if (!hasCliSet) setPreferredCli(settings.preferred_cli || 'claude');
-            if (!hasModelSet) setSelectedModel(settings.preferred_cli === 'claude' ? 'claude-sonnet-4' : 'gpt-5');
+            if (!hasModelSet) {
+              if (settings.preferred_cli === 'claude') {
+                setSelectedModel('claude-sonnet-4');
+              } else if (settings.preferred_cli === 'qwen' || settings.preferred_cli === 'router') {
+                setSelectedModel('qwen3-coder-plus');
+              } else if (settings.preferred_cli === 'gemini') {
+                setSelectedModel('gemini-2.5-pro');
+              } else {
+                setSelectedModel('gpt-5');
+              }
+            }
           }
         }
       }
